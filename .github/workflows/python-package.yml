@@ -16,7 +16,7 @@ env:
   PIP_DISABLE_PIP_VERSION_CHECK: "1"
   PIP_NO_PYTHON_VERSION_WARNING: "1"
   PYTHON_LATEST: "3.12"
-  KAFKA_LATEST: "2.6.0"
+  KAFKA_LATEST: "3.5.1"
 
   # For re-actors/checkout-python-sdist
   sdist-artifact: python-package-distributions
