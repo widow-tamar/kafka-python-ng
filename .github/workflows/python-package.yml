@@ -57,6 +57,9 @@ jobs:
       - build-sdist
     runs-on: ubuntu-latest
     continue-on-error: ${{ matrix.experimental }}
+    concurrency:
+      group: python-group
+      cancel-in-progress: true
     strategy:
       fail-fast: false
       matrix:
@@ -112,6 +115,9 @@ jobs:
       - build-sdist
     runs-on: ubuntu-latest
     timeout-minutes: 15
+    concurrency:
+      group: kafka-group
+      cancel-in-progress: true
     strategy:
       fail-fast: false
       matrix:
