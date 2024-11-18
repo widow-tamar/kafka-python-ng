@@ -1,9 +1,12 @@
 import collections
+import typing
 import copy
 import logging
 import random
 import sys
 import time
+import datetime
+import enum
 
 import kafka.errors as Errors
 from kafka.future import Future
@@ -23,14 +26,31 @@ log = logging.getLogger(__name__)
 READ_UNCOMMITTED = 0
 READ_COMMITTED = 1
 
-ConsumerRecord = collections.namedtuple("ConsumerRecord",
-    ["topic", "partition", "offset", "timestamp", "timestamp_type",
-     "key", "value", "headers", "checksum", "serialized_key_size", "serialized_value_size", "serialized_header_size"])
+class TimestampType(enum.IntEnum):
+    TIMESTAMP_NOT_AVAILABLE = 0
+    TIMESTAMP_CREATE_TIME = 1
+    TIMESTAMP_LOG_APPEND_TIME = 2
 
+class ConsumerRecord(typing.NamedTuple):
+    topic: str
+    partition: int
+    offset: int
+    timestamp: datetime.datetime
+    timestamp_type: TimestampType
+    key: str
+    value: typing.Any
+    headers: typing.Sequence
+    checksum: str
+    serialized_key_size: int
+    serialized_value_size: int
+    serialized_header_size: int
 
-CompletedFetch = collections.namedtuple("CompletedFetch",
-    ["topic_partition", "fetched_offset", "response_version",
-     "partition_data", "metric_aggregator"])
+class CompletedFetch(typing.NamedTuple):
+    topic_partition: typing.Any
+    fetched_offset: int
+    response_version: str
+    partition_data: typing.Any
+    metric_aggregator: typing.Any
 
 
 class NoOffsetForPartitionError(Errors.KafkaError):
